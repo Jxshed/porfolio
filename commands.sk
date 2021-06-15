@@ -1,0 +1,89 @@
+on join: 
+    if {eco::%player%} is not set: 
+        set {eco::%player%} to 0
+command /glow [<text>]:
+  trigger:
+    make console execute "/give %player% %arg-1%{HideFlags:0,Enchantments:[{id:mending,lvl:1}]} 1"
+command /broadcast [<text>]:
+  permission: op
+  trigger:
+    if arg-1 is set:
+      send "&0" to all players
+      send "&c&lBroadcast &8>> &e%colored arg-1%" to all players
+      send "&c" to all players
+
+command /start:
+  trigger:
+    if {start::%player's uuid%} is false:
+      teleport player to world "GoldenGN2"
+      make player execute command "/p auto"
+      give player iron pickaxe of efficiency 3 and unbreaking 3
+      give player iron shovel of efficiency 3 and unbreaking 3
+      give player iron axe of efficiency 3 and unbreaking 3
+      give player iron sword of sharpness 3 and unbreaking 3
+      send title "&5&lStarted!"
+      give player white concrete named "&f&lWhite Gen"
+      set {start::%player's uuid%} to true
+    if {start::%player's uuid%} is true:
+      send "&cYou have already started, &4contact staff for help." to player
+
+on join:
+  if {start::%player's uuid%} is not set:
+    set {start::%player's uuid%} to false
+
+command /fixstart [<player>]:
+  permission: fix.start
+  trigger:
+    if arg-1 is set:
+      set {start::%arg-1's uuid%} to false
+    if arg-1 is not set:
+      set {start::%player's uuid%} to false
+
+command /rules:
+  trigger:
+    open virtual chest with size 4 named "&c&lRules" to player
+    format gui slot 0,1,2,3,4,5,6,7,8,9,17,18,26,27,28,29,30,32,33,34 and 35 of player with black stained glass pane named "&0"
+    format gui slot 31 of player with barrier named "&c&lClose"
+    format gui slot 10 of player with glowing paper named "&a1. &c3 accounts pr. team is max"
+    format gui slot 11 of player with glowing paper named "&a2. &cDo not use any autoclickers or macros"
+    format gui slot 12 of player with glowing paper named "&a3. &cMax 1 alt pr. person"
+    format gui slot 13 of player with glowing paper named "&a4. &cDo not use VPNs or IP changers"
+    format gui slot 14 of player with glowing paper named "&a5. &cDon't use hacks for unfair advantages"
+    format gui slot 15 of player with glowing paper named "&a6. &cDon't scam"
+    format gui slot 16 of player with glowing paper named "&a7. &cDo not spam chat"
+    format gui slot 19 of player with glowing paper named "&a8. &cDo not ask for keyalls, money or items from staff."
+    format gui slot 20 of player with glowing paper named "&a9. &cDo not boost other players."
+    format gui slot 21 of player with glowing paper named "&a10. &cDo not command spam"
+    format gui slot 25 of player with glowing blue wool named "&cCheck /discord for other rules"
+
+
+command /buyment [<player>] [<text>]:
+  permission: op
+  trigger:
+    send "" to all players
+    send "&c|-----------------------------------------|" to all players
+    send "&aA package was bought by &2%arg-1%" to all players
+    send "&ePackage: %colored arg-2%" to all players
+    send "&aThank you %arg-1% &afor supporting &6&lGoldenGN" to all players
+    send "&c|-----------------------------------------|" to all players
+    send "" to all players
+
+command /guide:
+  trigger:
+    open virtual chest with size 3 named "&e&lGuide" to player
+    format gui slot 0,1,2,3,5,6,7,8,9,17,18,19,20,21,23,24,25,26,27 of player with black stained glass pane named "&0"
+    format gui slot 4 of player with golden ingot named "&e&l/Guide"
+    format gui slot 22 of player with barrier named "&c&lClose" to close
+    format gui slot 10 of player with paper named "&a&lStep 1" with lore "&0" and "&2Begin with /start"
+    format gui slot 11 of player with paper named "&a&lStep 2" with lore "&0" and "&2Place down you gen"
+    format gui slot 12 of player with paper named "&a&lStep 3" with lore "&0" and "&2Take the dyes and items you get from it and do /sell"
+    format gui slot 13 of player with paper named "&a&lStep 4" with lore "&0" and "&2Earn money to upgrade gens"
+    format gui slot 14 of player with paper named "&a&lStep 5" with lore "&0" and "&2Get loads of it to be the best"
+    format gui slot 15 of player with paper named "&a&lStep 6" with lore "&0" and "&2Max out gens and /rankup"
+    format gui slot 16 of player with paper named "&a&lStep 7" with lore "&0" and "&2Hopefully win /baltop and /shardstop"
+command /skreload [<string>]:
+  permission: op
+  trigger:
+    if arg-1 is set:
+      make console execute "/sk reload %arg-1%"
+      make console execute "/broadcast Skript: %arg-1%.sk is being reloaded, expect some lag."
